@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebXR</title>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@a2aacc8b1458bdc02a2a67a5048c31a922cfedf1/dist/aframe-master.min.js"></script>
+</head>
+<body>
+    <a-scene id="scene">
+        <a-assets>
+          <img id="metal" src="./texture/Metal.jpg">
+          <audio id="song" src="./beatmap/demo/song.ogg" preload="auto"></audio>
+        </a-assets>
+        <a-box
+        color="#0095DD"
+        rotation="20 40 0"
+        position="0 1 -5">
+      </a-box>
+      <a-entity id="audio-player"
+      sound="src: #song; volume: 0.12;"></a-entity>
+      <a-entity id="node-spawner"
+      node-spawner></a-entity>
+      <a-camera>
+          <a-cursor color="red" weapon-switch></a-cursor>
+      </a-camera>
+    </a-scene>
+    <script src="./js/node-spawner.js"></script>
+    <script src="./js/weapon-switch.js"></script>
+</body>
+</html>
