@@ -5,28 +5,101 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebXR</title>
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@a2aacc8b1458bdc02a2a67a5048c31a922cfedf1/dist/aframe-master.min.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 </head>
 <body>
     <a-scene id="scene">
-        <a-assets>
-          <img id="metal" src="./texture/Metal.jpg">
-          <audio id="song" src="./beatmap/demo/song.ogg" preload="auto"></audio>
-        </a-assets>
-        <a-box
-        color="#0095DD"
-        rotation="20 40 0"
-        position="0 1 -5">
-      </a-box>
-      <a-entity id="audio-player"
-      sound="src: #song; volume: 0.12;"></a-entity>
-      <a-entity id="node-spawner"
-      node-spawner></a-entity>
-      <a-camera>
-          <a-cursor color="red" weapon-switch></a-cursor>
-      </a-camera>
+      <a-assets>
+        <img id="sky" src="./texture//Equirectangular.png">
+        <img id="cover" src="./beatmap/demo/cover.jpg">
+        <img id="metal" src="./texture/Metal.jpg">
+        <audio id="song" src="./beatmap/demo/song.ogg" preload="auto"></audio>
+        <a-asset-item id="gun" src="./model/ScifIGunNewHandle.gltf"></a-asset-item>
+      </a-assets>
+
+      <a-entity game-manager></a-entity>
+
+      <a-sky src="#sky"></a-sky>
+
+      <a-entity id="main-menu">
+        <a-plane id="main-menu-board" position="0 0 -6" rotation="0 0 0" width="10" height="4" color="#7BC8A4" material="transparent: true;opacity: 0.6;">
+          <a-entity text="value: Song : Only Now\nAuthor : Geoxor;align: left;width: 5;height: 5;" position="-1.20 -1.5 0">
+          </a-entity>
+          <a-entity text="value: Shootym;align: center;width: 30;height: 30;" position="-2 1 0">
+          </a-entity>
+          <a-image src="#cover" position="-4.25 -1.25 0.01" scale="1 1 1"></a-image>
+          <a-plane id="play-button" position="3 0 0.01" rotation="0 0 0" width="3" height="3" color="#27636e" 
+            animation__mouseenter="property: components.material.material.color; startEvents: mouseenter; type: color; dur: 1500; to: #15353b" 
+            animation__mouseleave="property: components.material.material.color; startEvents: mouseleave; type: color; easing: easeOutCubic; dur: 500; to: #27636e">
+            <a-entity text="value: PLAY;align: center;width: 10;height: 10;" position="0 0 0">
+            </a-entity>
+          </a-plane>
+        </a-plane>
+      </a-entity>
+
+      <a-entity id="game-level" visible="false">
+        <a-entity id="text-timer" text="value: 3;align: center;" position="0 0.2 -0.4" game-start-timer="autostart: false;"></a-entity>
+        <a-entity id="text-score" text="value: 000;align: center;width: 20;height: 20;" position="6 2 -10" ></a-entity>
+  
+        <a-entity id="audio-player"
+        sound="src: #song; volume: 0.03;"></a-entity>
+  
+        <a-entity id="event-emitter"></a-entity>
+  
+        <a-entity id="note-spawner"
+        note-spawner="autostart: false;" node-spawner="autostart: false;"></a-entity>
+  
+        <!-- <a-entity laser-controls raycaster></a-entity> -->
+  
+        <a-plane id="note-board" position="0 0 -10" rotation="0 0 0" width="10" height="4" color="#7BC8A4" material="transparent: true; opacity: 0.6;">
+          <a-plane id="note-board" position="-4 0 0.1" rotation="0 0 0" width="0.05" height="4" color="#FFFFFF">
+          </a-plane>
+        </a-plane>
+      </a-entity>
+
+      <a-entity id="end-menu" scale="0 0 0">
+        <a-plane id="end-menu-board" position="0 0 -5" rotation="0 0 0" width="10" height="4" color="#7BC8A4" material="transparent: true;opacity: 0.6;">
+          <a-entity text="value: Song : Only Now\nAuthor : Geoxor;align: left;width: 5;height: 5;" position="-1.20 -1.5 0">
+          </a-entity>
+          <a-entity id="end-score" text="value: Score 0; align: center; width: 25; height: 25;" position="-2 1 0">
+          </a-entity>
+          <a-image src="#cover" position="-4.25 -1.25 0.01" scale="1 1 1"></a-image>
+          <a-plane id="replay-button" position="3 0 0.01" rotation="0 0 0" width="3" height="3" color="#27636e" 
+            animation__mouseenter="property: components.material.material.color; startEvents: mouseenter; type: color; dur: 1500; to: #15353b" 
+            animation__mouseleave="property: components.material.material.color; startEvents: mouseleave; type: color; easing: easeOutCubic; dur: 500; to: #27636e">
+            <a-entity text="value: REPLAY;align: center;width: 10;height: 10;" position="0 0 0">
+            </a-entity>
+          </a-plane>
+        </a-plane>
+      </a-entity>
+  
+      <a-entity id="rig" position="0 0 0">
+        <a-entity id="camera" camera look-controls="pointerLockEnabled: true;">
+          <a-gltf-model src="#gun"
+            rotation="0 180 0"
+            position="1.5 -1 -2"
+            scale="4 4 4"></a-gltf-model>
+          <a-entity flash geometry="primitive: sphere;radius: 0.6;"
+            material="color: #f78800; shader: standard; opacity: 0.8; transparent: true;"
+            rotation="0 0 0"
+            position="1.5 -0.4 -3">
+            <a-entity geometry="primitive: sphere;radius: 0.6;"
+              material="color: yellow; shader: standard; opacity: 0.8; transparent: true;"
+              rotation="0 0 0"
+              position="1.5 -0.4 -3"></a-entity>
+          </a-entity>
+          <a-entity
+            cursor="fuse: true;"
+            material="color: white; shader: flat"
+            position="0 0 -3"
+            scale="0.05 0.05 0.05"
+            geometry="primitive: ring"></a-entity>
+        </a-entity>
+      </a-entity>
+      
     </a-scene>
     <script src="./js/node-spawner.js"></script>
     <script src="./js/weapon-switch.js"></script>
+    
 </body>
 </html>
