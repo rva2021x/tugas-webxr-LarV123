@@ -38,8 +38,11 @@
       </a-entity>
 
       <a-entity id="game-level" visible="false">
+        <a-entity combo-counter></a-entity>
         <a-entity id="text-timer" text="value: 3;align: center;" position="0 0.2 -0.4" game-start-timer="autostart: false;"></a-entity>
-        <a-entity id="text-score" text="value: 000;align: center;width: 20;height: 20;" position="6 2 -10" ></a-entity>
+        <a-entity id="text-score" text="value: 000;align: left;width: 20;height: 20;" position="15 2 -10" ></a-entity>
+        <a-entity id="hit-combo" text="value: Hit combo : 0;align: left;width: 20;height: 20;" position="15 1 -10" ></a-entity>
+        <a-entity id="multiplier-text" text="value: x1;align: left;width: 20;height: 20;" position="15 0 -10" ></a-entity>
   
         <a-entity id="audio-player"
         sound="src: #song; volume: 0.03;"></a-entity>
@@ -98,8 +101,14 @@
       </a-entity>
       
     </a-scene>
+    <script src="./js/main.js"></script>
+    <script src="./js/node.js"></script>
+    <script src="./js/note.js"></script>
     <script src="./js/node-spawner.js"></script>
-    <script src="./js/weapon-switch.js"></script>
+    <script src="./js/note-spawner.js"></script>
+    <script src="./js/game-start-timer.js"></script>
+    <script src="./js/game-manager.js"></script>
+    <script src="./js/combo-counter.js"></script>
     
 </body>
 </html>
